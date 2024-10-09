@@ -25,6 +25,7 @@ Here's an example of a heavily styled button.
     <svg>dummy svg</svg>
     Dummy text
 </p>
+```
 
 The goal is to make the markup more readable. Tailwind is a great tool for Atomic CSS, but merging the markup and styling in a single place can make it more complex to read.
 
