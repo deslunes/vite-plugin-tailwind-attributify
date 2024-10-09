@@ -6,7 +6,9 @@ Here's an example of a heavily styled button.
 
 ### Without Tailwind-Attributify:
 ```html
-<p class="text-lg text-neutral-900 bg-white opacity-70 font-bold transition max-w-full dark:text-neutral-200 dark:bg-black has-[svg]:opacity-100 md:max-w-3xl md:hover:text-xl *:bg-teal-600"
+<p class="text-lg text-neutral-900 bg-white opacity-70 font-bold transition 
+max-w-full dark:text-neutral-200 dark:bg-black has-[svg]:opacity-100 
+md:max-w-3xl md:hover:text-xl *:bg-teal-600"
    >
     <svg>dummy svg</svg>
     Dummy text
