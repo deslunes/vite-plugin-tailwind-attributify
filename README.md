@@ -129,7 +129,7 @@ React requires a specific parser that wouldn't benefit Vue and Svelte users. Whi
 # What has to be done / Roadmap
 
 - Types
-  - Currently typescript throw a type error when you try to add the plugin to your plugin array in your `vite.config.ts` because the project does not use typescript at all, the Vite Plugin isn't typed as a Plugin
+  - ~~Currently typescript throw a type error when you try to add the plugin to your plugin array in your `vite.config.ts` because the project does not use typescript at all, the Vite Plugin isn't typed as a Plugin~~ now that typescript is supported, the plugin is properly typed as Plugin. Everything is fine. (I don't know how, so I'll never touch this part of the plugin again)
   - Svelte needs some types to be declared because it's sensitive about the attributes you give to your DOMs. Here we have a lot of attributes (and dynamic ones) to declare. I made a `svelte.d.ts` file that declares the attributes and it works perfectly when it's placed in the src/ directory of your svelte app, but I don't know how to tell svelte to listen to it from within the package.
 - Cleanup the package.json, tailwind is not even in the list of the dependencies...
 - React support ? Maybe ? Some day?
