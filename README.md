@@ -94,9 +94,9 @@ import type { Config } from 'tailwindcss';
 import { updateMarkup } from 'vite-plugin-tailwind-attributify';
 
 export default {
-- content: ['./src/**/*.{html,js,svelte,ts}'],
+- content:["./index.html","./src/**/*.{vue,js,ts,jsx,tsx}"],
 + content: {
-+	files: ['./src/**/*.{html,js,svelte,ts}'],
++	files: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
 +	transform: {
 +	  vue: (content) => {
 +		return updateMarkup(content);

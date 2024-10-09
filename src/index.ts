@@ -1,4 +1,5 @@
 import { parse } from 'node-html-parser';
+import type { Plugin } from 'vite';
 
 const pseudoSelectors = [
   //breakpoints
@@ -28,14 +29,12 @@ const dynamic = [
   "has", "min", "max", "supports"
 ]
 
-/**
- * @returns {import('vite').Plugin}
- */
-export default function Attributify() {
+
+export default function Attributify(): Plugin {
   return {
     name: 'vite-plugin-tailwind-attributify',
     enforce: "pre",
-    async transform(code, id) {
+    async transform(code:any, id: string) {
       if (!/\.(svelte|vue)$/.test(id)) return code;
       return updateMarkup(code);
     },
@@ -44,10 +43,7 @@ export default function Attributify() {
 
 
 
-/**
- * @param {string} html
- */
-function updateMarkup(html) {
+function updateMarkup(html: string) : string {
 
   const root = parse(html);
 
