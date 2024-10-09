@@ -68,22 +68,20 @@ import type { Config } from 'tailwindcss';
 import { updateMarkup } from 'vite-plugin-tailwind-attributify';
 
 export default {
--   content: ['./src/**/*.{html,js,svelte,ts}'],
-+	content: {
-+		files: ['./src/**/*.{html,js,svelte,ts}'],
-+		transform: {
-+			svelte: (content) => {
-+				return updateMarkup(content);
-+			}
-+		}
-+	},
+- content: ['./src/**/*.{html,js,svelte,ts}'],
++ content: {
++	files: ['./src/**/*.{html,js,svelte,ts}'],
++	transform: {
++	  svelte: (content) => {
++		return updateMarkup(content);
++	  }
++	}
++ },
 
-	theme: {
-		extend: {}
-	},
-
-	plugins: [
-	]
+  theme: {
+    extend: {}
+  },
+  plugins: []
 } as Config;
 ```
 As you can see, we're taking the value of `content` and place it in `content.files`. In this case we're in a SvelteKit app so the value of `content.files.transform` is svelte, which is the extension of Svelte files. If you're using Vue, replace it with `vue`. It tells Tailwind which file he's about to transform. Just like that:
@@ -94,22 +92,20 @@ import type { Config } from 'tailwindcss';
 import { updateMarkup } from 'vite-plugin-tailwind-attributify';
 
 export default {
--   content: ['./src/**/*.{html,js,svelte,ts}'],
-+	content: {
-+		files: ['./src/**/*.{html,js,svelte,ts}'],
-+		transform: {
-+			vue: (content) => {
-+				return updateMarkup(content);
-+			}
-+		}
-+	},
+- content: ['./src/**/*.{html,js,svelte,ts}'],
++ content: {
++	files: ['./src/**/*.{html,js,svelte,ts}'],
++	transform: {
++	  vue: (content) => {
++		return updateMarkup(content);
++	  }
++	}
++ },
 
-	theme: {
-		extend: {}
-	},
-
-	plugins: [
-	]
+  theme: {
+    extend: {}
+  },
+  plugins: []
 } as Config;
 ```
 
