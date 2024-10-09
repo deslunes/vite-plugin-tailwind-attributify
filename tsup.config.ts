@@ -2,8 +2,10 @@ import { defineConfig } from 'tsup';
  
 export default defineConfig({
     format: ['cjs', 'esm'],
-    entry: ['./src/index.ts'],
-    dts: true,
+    entry: ['./index.ts'],
+    dts: {
+        entry: ['./index.ts','./svelte.d.ts']
+    },
     shims: true,
     skipNodeModulesBundle: true,
     clean: true,

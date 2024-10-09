@@ -1,4 +1,4 @@
-// src/index.ts
+// index.ts
 import { parse } from "node-html-parser";
 var pseudoSelectors = [
   //breakpoints
