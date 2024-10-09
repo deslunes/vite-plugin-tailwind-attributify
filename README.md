@@ -38,6 +38,82 @@ We often end up with more than 10 CSS classes per DOM element, and this number i
 - Supports multiple pseudo-selectors by using `_` instead of `:` (`md:hover:text-red-400` becomes `md_hover="text-red-400"`)
 - Does not break your codebase, as the plugin does not remove the content of your class attribute; it can only add to it.
 
+# How to install
+
+1. Install the npm package
+
+```
+npm install vite-plugin-tailwind-attributify
+```
+
+2. Place the plugin in your `vite.config.ts` or `vite.config.js` **before your framework**
+
+```ts
+//vite.config.ts file
+import { sveltekit } from '@sveltejs/kit/vite';
+import { defineConfig } from 'vite';
+import { Attributify } from 'vite-plugin-tailwind-attributify';
+
+export default defineConfig({
+	plugins: [Attributify(), sveltekit()]
+});
+```
+As you can see, the order is important, here we place the `Attributify` plugin first, before SvelteKit. It is the same for Vue or Nuxt.
+
+3. Use the plugin in your `tailwind.config.ts|js|mjs` file
+
+```diff
+//tailwind.config.ts file
+import type { Config } from 'tailwindcss';
+import { updateMarkup } from 'vite-plugin-tailwind-attributify';
+
+export default {
+-   content: ['./src/**/*.{html,js,svelte,ts}'],
++	content: {
++		files: ['./src/**/*.{html,js,svelte,ts}'],
++		transform: {
++			svelte: (content) => {
++				return updateMarkup(content);
++			}
++		}
++	},
+
+	theme: {
+		extend: {}
+	},
+
+	plugins: [
+	]
+} as Config;
+```
+As you can see, we're taking the value of `content` and place it in `content.files`. In this case we're in a SvelteKit app so the value of `content.files.transform` is svelte, which is the extension of Svelte files. If you're using Vue, replace it with `vue`. It tells Tailwind which file he's about to transform. Just like that:
+
+```diff
+//tailwind.config.ts file
+import type { Config } from 'tailwindcss';
+import { updateMarkup } from 'vite-plugin-tailwind-attributify';
+
+export default {
+-   content: ['./src/**/*.{html,js,svelte,ts}'],
++	content: {
++		files: ['./src/**/*.{html,js,svelte,ts}'],
++		transform: {
++			vue: (content) => {
++				return updateMarkup(content);
++			}
++		}
++	},
+
+	theme: {
+		extend: {}
+	},
+
+	plugins: [
+	]
+} as Config;
+```
+
+
 # How it Works
 
 We use the `transform` Vite hook to intercept code, then apply an HTML parser to extract the attributes, check if they are pseudo-selectors, and add the corresponding classes to the class attribute. This means that the custom attributes you use to style your DOM only exist in your codebase; when the markup is sent to the client, everything is already merged into the class attribute.
