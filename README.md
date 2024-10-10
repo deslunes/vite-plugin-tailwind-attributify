@@ -21,8 +21,8 @@ md:max-w-3xl md:hover:text-xl *:bg-teal-600"
    dark="text-neutral-200 bg-black"
    has-svg="opacity-100"
    md="max-w-3xl"
-   md_hover="text-xl" // translates to md:hover:text-xl
-   children="bg-teal-600"
+   md_hover="text-xl" translates to md:hover:text-xl
+   children="bg-teal-600" translates to *:bg-teal-600
    >
     <svg>dummy svg</svg>
     Dummy text
@@ -62,6 +62,8 @@ export default defineConfig({
 ```
 As you can see, the order is important, here we place the `Attributify` plugin first, before SvelteKit. It is the same for Vue or Nuxt.
 
+
+
 3. Use the plugin in your `tailwind.config.ts|js|mjs` file
 
 ```diff
@@ -86,6 +88,7 @@ export default {
   plugins: []
 } as Config;
 ```
+
 As you can see, we're taking the value of `content` and place it in `content.files`. In this case we're in a SvelteKit app so the value of `content.files.transform` is svelte, which is the extension of Svelte files. If you're using Vue, replace it with `vue`. It tells Tailwind which file he's about to transform. Just like that:
 
 ```diff
@@ -112,6 +115,18 @@ export default {
 ```
 
 
+
+4. Add types to your codebase (for Svelte only)
+
+add to your existing app.d.ts file in your src/ directory, or create one if needed and add this line.
+```ts
+import HTMLAttributes from 'vite-plugin-tailwind-attributify/svelte'
+```
+
+You can check what it does. It extends the types Svelte use to determine what attributes are allowed to be used on DOMs. the svelte.d.ts file you're importing contains a list of attributes and **dynamic** attributes that we use as pseudo selectors. That's the thing that tells Svelte to not yell at us for doing something like `<p children="text-red-400"> Dummy text</p>`. Otherwise, you would get an error because this attribute is unexpected.
+
+
+
 # How it Works
 
 We use the `transform` Vite hook to intercept code, then apply an HTML parser to extract the attributes, check if they are pseudo-selectors, and add the corresponding classes to the class attribute. This means that the custom attributes you use to style your DOM only exist in your codebase; when the markup is sent to the client, everything is already merged into the class attribute.
@@ -128,9 +143,6 @@ React requires a specific parser that wouldn't benefit Vue and Svelte users. Whi
 
 # What has to be done / Roadmap
 
-- Types
-  - ~~Currently typescript throw a type error when you try to add the plugin to your plugin array in your `vite.config.ts` because the project does not use typescript at all, the Vite Plugin isn't typed as a Plugin~~ now that typescript is supported, the plugin is properly typed as Plugin. Everything is fine. (I don't know how, so I'll never touch this part of the plugin again)
-  - Svelte needs some types to be declared because it's sensitive about the attributes you give to your DOMs. Here we have a lot of attributes (and dynamic ones) to declare. I made a `svelte.d.ts` file that declares the attributes and it works perfectly when it's placed in the src/ directory of your svelte app, but I don't know how to tell svelte to listen to it from within the package.
 - Cleanup the package.json, tailwind is not even in the list of the dependencies...
 - React support ? Maybe ? Some day?
 - Webpack support ? Unlikely to happen tbh

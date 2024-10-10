@@ -17,14 +17,14 @@ var __copyProps = (to, from, except, desc) => {
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// index.ts
-var vite_plugin_tailwind_attributify_exports = {};
-__export(vite_plugin_tailwind_attributify_exports, {
+// src/index.ts
+var src_exports = {};
+__export(src_exports, {
   Attributify: () => Attributify,
   default: () => Attributify,
   updateMarkup: () => updateMarkup
 });
-module.exports = __toCommonJS(vite_plugin_tailwind_attributify_exports);
+module.exports = __toCommonJS(src_exports);
 var import_node_html_parser = require("node-html-parser");
 var pseudoSelectors = [
   //breakpoints
