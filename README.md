@@ -6,27 +6,22 @@ Here's an example of a heavily styled button.
 
 ### Without Tailwind-Attributify:
 ```html
-<p class="text-lg text-neutral-900 bg-white opacity-70 font-bold transition 
-max-w-full dark:text-neutral-200 dark:bg-black has-[svg]:opacity-100 
-md:max-w-3xl md:hover:text-xl *:bg-teal-600"
-   >
-    <svg>dummy svg</svg>
-    Dummy text
-</p>
+<a href="/"
+   class="relative after:font-Inter bg-amber-50 text-amber-500 py-1 px-2 rounded-lg transition-all hover:bg-amber-100 hover:text-amber-600 hover:rounded after:content-['_↗'] after:relative after:left-0 after:bottom-0 after:text-amber-500 after:transition-all hover:after:bottom-0.5 hover:after:left-0.5 hover:after:text-amber-600">
+Dummy a tag
+</a>
 ```
 
 ### With Tailwind-Attributify:
 ```html
-<p class="text-lg text-neutral-900 bg-white opacity-70 font-bold transition max-w-full"
-   dark="text-neutral-200 bg-black"
-   has-svg="opacity-100"
-   md="max-w-3xl"
-   md_hover="text-xl" translates to md:hover:text-xl
-   children="bg-teal-600" translates to *:bg-teal-600
-   >
-    <svg>dummy svg</svg>
-    Dummy text
-</p>
+<a href="/"
+   class="relative after:font-Inter bg-amber-50 text-amber-500 py-1 px-2 rounded-lg transition-all"
+   hover="bg-amber-100 text-amber-600 rounded"
+   after="content-['_↗'] relative left-0 bottom-0 text-amber-500 transition-all"
+   hover_after="bottom-0.5 left-0.5 text-amber-600"
+>
+Dummy a tag
+</a>
 ```
 
 The goal is to make the markup more readable. Tailwind is a great tool for Atomic CSS, but merging the markup and styling in a single place can make it more complex to read.
