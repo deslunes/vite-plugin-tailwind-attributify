@@ -1,4 +1,4 @@
-// src/svelte-global.d.ts
+// src/svelte.d.ts
 import { HTMLAttributes } from 'svelte/elements';
 
 declare module 'svelte/elements' {

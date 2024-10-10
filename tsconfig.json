@@ -12,6 +12,6 @@
       "noEmit": true,
       "outDir": "dist"
   },
-  "include": ["index.ts"],
+  "include": ["./src/index.ts", "./svelte.d.ts"],
   "exclude": ["node_modules"]
 }
