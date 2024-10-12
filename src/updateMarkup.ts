@@ -15,7 +15,6 @@ function updateMarkup(html: string, clazz = "class" as string ): string {
       }
     });
   });
-
   return root.toString();
 }
 
@@ -47,7 +46,7 @@ function addPrefixedClasses(element: any, attributeValue: string, prefix: string
   const classes = attributeValue.split(" ");
   const prefixedClasses = classes.map((cls) => `${prefix}${cls}`).join(" ");
   
-  const existingClass = element.getAttribute("class") || "";
+  const existingClass = element.getAttribute(clazz) || "";
   element.setAttribute(clazz, `${existingClass} ${prefixedClasses}`.trim());
 }
 

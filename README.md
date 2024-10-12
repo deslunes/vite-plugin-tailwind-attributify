@@ -24,26 +24,26 @@ Dummy a tag
 </a>
 ```
 
-The goal is to make the markup more readable. Tailwind is a great tool for Atomic CSS, but merging the markup and styling in a single place can make it more complex to read.
+The goal is to make the markup more readable. Tailwind is a great tool for Atomic CSS, but merging the markup and styling in a single place can makes it more complex to read.
 
 We often end up with more than 10 CSS classes per DOM element, and this number increases when we include responsive breakpoints and dark mode. By splitting CSS classes into multiple attributes, the space that the CSS occupies in the markup remains the same, but readability is improved.
 
 # Features
 
-- Supports Svelte and Vue
-- No need to use pseudo-classes and selectors in attributes; the plugin automatically adds the prefixes
+- Supports Svelte and Vue and JSX frameworks (React, Solid...)
+- No breaking changes, the behavior of your class or className attribute didn't change.
+- Use attributes as pseudo selectors to make your CSS organized and avoid to repeat the prefix: on each CSS class.
 - Supports multiple pseudo-selectors by using `_` instead of `:` (`md:hover:text-red-400` becomes `md_hover="text-red-400"`)
-- Does not break your codebase, as the plugin does not remove the content of your class attribute; it can only add to it.
 
 # How to install
 
-1. Install the npm package
+## 1. Install the npm package
 
 ```
 npm install vite-plugin-tailwind-attributify
 ```
 
-2. Place the plugin in your `vite.config.ts` or `vite.config.js` **before your framework**
+## 2. Place the plugin in your `vite.config.ts` or `vite.config.js` **before your framework**
 
 ```ts
 //vite.config.ts file
@@ -57,68 +57,62 @@ export default defineConfig({
 ```
 As you can see, the order is important, here we place the `Attributify` plugin first, before SvelteKit. It is the same for Vue or Nuxt.
 
+## 3. Use the plugin in your `tailwind.config.ts|js|mjs` file
 
+The automatic way is to provide the relative path to your tailwind config file (`tailwind.config.ts|js|mjs`file) in the options of the plugin in the `vite.config.ts|js` file:
 
-3. Use the plugin in your `tailwind.config.ts|js|mjs` file
-
-```diff
-//tailwind.config.ts file
-import type { Config } from 'tailwindcss';
-import { updateMarkup } from 'vite-plugin-tailwind-attributify';
-
-export default {
-- content: ['./src/**/*.{html,js,svelte,ts}'],
-+ content: {
-+	files: ['./src/**/*.{html,js,svelte,ts}'],
-+	transform: {
-+	  svelte: (content) => {
-+		return updateMarkup(content);
-+	  }
-+	}
-+ },
-
-  theme: {
-    extend: {}
-  },
-  plugins: []
-} as Config;
-```
-
-As you can see, we're taking the value of `content` and place it in `content.files`. In this case we're in a SvelteKit app so the value of `content.files.transform` is svelte, which is the extension of Svelte files. If you're using Vue, replace it with `vue`. It tells Tailwind which file he's about to transform. Just like that:
-
-```diff
-//tailwind.config.ts file
-import type { Config } from 'tailwindcss';
-import { updateMarkup } from 'vite-plugin-tailwind-attributify';
-
-export default {
-- content:["./index.html","./src/**/*.{vue,js,ts,jsx,tsx}"],
-+ content: {
-+	files: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
-+	transform: {
-+	  vue: (content) => {
-+		return updateMarkup(content);
-+	  }
-+	}
-+ },
-
-  theme: {
-    extend: {}
-  },
-  plugins: []
-} as Config;
-```
-
-
-
-4. Add types to your codebase (for Svelte only)
-
-add to your existing app.d.ts file in your src/ directory, or create one if needed and add this line.
 ```ts
-import HTMLAttributes from 'vite-plugin-tailwind-attributify/svelte'
+//vite.config.ts file
+import { sveltekit } from '@sveltejs/kit/vite';
+import { defineConfig } from 'vite';
+import { Attributify } from 'vite-plugin-tailwind-attributify';
+
+export default defineConfig({
+	plugins: [
+    Attributify({tailwindPath: './tailwind.config.ts'}),
+    sveltekit()
+  ]
+});
+```
+**Or check the manual setup below**
+
+<details>
+<summary>Manual setup</summary>
+
+```diff
+//tailwind.config.ts file
+import type { Config } from 'tailwindcss';
+import { updateMarkup } from 'vite-plugin-tailwind-attributify';
+
+export default {
+- content: ['./src/**/*.{html,js,svelte,ts}'], // this value is relative to your framework
++  content: {
++    files: ['./src/**/*.{html,js,svelte,ts}'], // it's the same value
++    transform: Object.fromEntries(
++    ['tsx', 'jsx', 'svelte', 'vue'].map(ext => [ext, (content) => updateMarkup(content)])
++  )
+},
+
+  theme: {
+    extend: {}
+  },
+  plugins: []
+} as Config;
+```
+</details>
+
+
+
+## 4. Add types to your codebase (for Svelte only)
+
+You should find a `.d.ts` file in your src/ directory, add this import at the top of it.
+```ts
+import HTMLAttributes from 'vite-plugin-tailwind-attributify/your framework'
 ```
 
-You can check what it does. It extends the types Svelte use to determine what attributes are allowed to be used on DOMs. the svelte.d.ts file you're importing contains a list of attributes and **dynamic** attributes that we use as pseudo selectors. That's the thing that tells Svelte to not yell at us for doing something like `<p children="text-red-400"> Dummy text</p>`. Otherwise, you would get an error because this attribute is unexpected.
+Since Vue doesn't need it, there is only one for svelte and React. I don't use other frameworks but if you need to, you can ask me to make a type file for your framework. I'll take some of my free time to check how to do it and update the plugin accordingly :)
+
+This import tells your framework that the attributes we use are not syntax errors.
 
 
 
@@ -135,8 +129,9 @@ We do the same on the Tailwind side because it needs to know when the class attr
 # What has to be done / Roadmap
 
 - Cleanup the package.json, tailwind is not even in the list of the dependencies...
-- Handle the config options internally (I'd like the plugin to change your tailwind config so you don't have to, same for the type imports in the app.d.ts file)
+- ~~Handle the config options internally (I'd like the plugin to change your tailwind config so you don't have to, same for the type imports in the app.d.ts file)~~ Done !
 - ~~React support~~ JSX frameworks supported !
+- Astro support !
 - Webpack support
 
 
