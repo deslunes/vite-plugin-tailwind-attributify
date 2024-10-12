@@ -128,10 +128,6 @@ We use the `transform` Vite hook to intercept code, then apply an HTML parser to
 
 We do the same on the Tailwind side because it needs to know when the class attribute is updated and has to send the CSS code related to those newly added classes.
 
-# Why Not React?
-
-React requires a specific parser that wouldn't benefit Vue and Svelte users. While SvelteKit and Nuxt both use Vite, React's most commonly used meta-framework (NextJS) uses Webpack. Another package specifically for React would make more sense.
-
 # Credits
 
 [Icemourne](https://github.com/Ice-mourne), who helped me a lot. We transitioned from a Svelte function to a Svelte preprocessor to a Vite plugin. I don't have much experience with JS/TS; I would still be trying to achieve that with a JavaScript function that runs at runtime if he hadn't helped me. Thanks a lot.
@@ -139,8 +135,9 @@ React requires a specific parser that wouldn't benefit Vue and Svelte users. Whi
 # What has to be done / Roadmap
 
 - Cleanup the package.json, tailwind is not even in the list of the dependencies...
-- React support ? Maybe ? Some day?
-- Webpack support ? Unlikely to happen tbh
+- Handle the config options internally (I'd like the plugin to change your tailwind config so you don't have to, same for the type imports in the app.d.ts file)
+- ~~React support~~ JSX frameworks supported !
+- Webpack support
 
 
 I typed a lot, sorry for that. Have a nice day and thank you for reading.
