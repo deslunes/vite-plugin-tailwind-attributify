@@ -150,6 +150,8 @@ We do the same on the Tailwind side because it needs to know when the class attr
 
 [Icemourne](https://github.com/Ice-mourne), who helped me a lot. We transitioned from a Svelte function to a Svelte preprocessor to a Vite plugin. I don't have much experience with JS/TS; I would still be trying to achieve that with a JavaScript function that runs at runtime if he hadn't helped me. Thanks a lot.
 
+[UNOCSS](https://unocss.dev/), which is an alternative to Tailwind that has an Attributify mode. I tried it, it's great. The keyword "Attributify" is obviously taken from them. It's an awesome project, very ambitious with great devtools.
+
 # What has to be done / Roadmap
 
 - Cleanup the package.json, tailwind is not even in the list of the dependencies...
